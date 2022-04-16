@@ -39,7 +39,7 @@ function game() {
   let playerScore = 0;
   let computerScore = 0;
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; playerScore < 6 || computerScore < 6; i++) {
     let round = playRound(playerSelection(), computerSelection());
 
     if (round === "player") {
@@ -49,7 +49,13 @@ function game() {
       computerScore++;
       console.log(`Round goes to computer`);
     } else if (round === "draw") {
+      computerScore++;
+      playerScore++;
       console.log(`Draw`);
+    }
+
+    if (computerScore === 5 || playerScore === 5) {
+      break;
     }
   }
 
