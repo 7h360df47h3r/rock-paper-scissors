@@ -1,0 +1,27 @@
+#rock{
+    background-color: lightblue;
+    width: 200px;
+    height: 130px;
+}
+
+#paper{
+    background-color: greenyellow;
+    width: 200px;
+    height: 130px;
+}
+
+#scissors{
+    background-color: plum;
+    width: 200px;
+    height: 130px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* align-content: space-around; */
+
+
+
+}

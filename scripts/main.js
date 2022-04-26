@@ -1,4 +1,13 @@
-game();
+const output = document.querySelector("#output");
+const OutputPlayScore = document.querySelector("#playScore");
+const OutputComputerScore = document.querySelector("#computerScore");
+
+const buttons = document.querySelectorAll("button");
+
+let playerScore = 0;
+let computerScore = 0;
+
+play();
 
 function computerSelection() {
   //randomly return either ‘Rock’, ‘Paper’ or ‘Scissors’.
@@ -9,59 +18,56 @@ function computerSelection() {
   return choice;
 }
 
-function playerSelection() {
-  let choice = prompt("select your move [rock, paper or scissors]")
-    .trim()
-    .toLowerCase();
-
-  return choice;
+function play() {
+  buttons.forEach((button) =>
+    button.addEventListener("click", (selection) => {
+      if (selection.target.id == "startGameButton") return;
+      const cpuSelection = computerSelection();
+      game(selection.target.id, cpuSelection);
+    })
+  );
 }
 
-function playRound(playerSelection, computerSelection) {
+function game(playerSelection, computerSelection) {
+  let round = "";
+
   if (playerSelection === computerSelection) {
-    return "draw";
+    round = "draw";
   } else if (playerSelection === "rock" && computerSelection === "paper") {
-    return "computer";
+    round = "computer";
   } else if (playerSelection === "rock" && computerSelection === "scissors") {
-    return `player`;
+    round = `player`;
   } else if (playerSelection === "paper" && computerSelection === "scissors") {
-    return `computer`;
+    round = `computer`;
   } else if (playerSelection === "paper" && computerSelection === "rock") {
-    return `player`;
+    round = `player`;
   } else if (playerSelection === "scissors" && computerSelection === "rock") {
-    return `computer`;
+    round = `computer`;
   } else if (playerSelection === "scissors" && computerSelection === "paper") {
-    return `player`;
-  }
-}
-
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-
-  for (let i = 0; playerScore < 6 || computerScore < 6; i++) {
-    let round = playRound(playerSelection(), computerSelection());
-
-    if (round === "player") {
-      playerScore++;
-      console.log(`Round goes to player`);
-    } else if (round === "computer") {
-      computerScore++;
-      console.log(`Round goes to computer`);
-    } else if (round === "draw") {
-      computerScore++;
-      playerScore++;
-      console.log(`Draw`);
-    }
-
-    if (computerScore === 5 || playerScore === 5) {
-      break;
-    }
+    round = `player`;
   }
 
-  if (playerScore > computerScore) {
-    console.log(`You Win!! ${playerScore} - ${computerScore}`);
-  } else {
-    console.log(`You Loose!! ${computerScore} - ${playerScore}`);
+  if (round === "player") {
+    playerScore++;
+    OutputPlayScore.textContent = playerScore;
+    output.textContent = `Round goes to player, ${playerSelection} beats ${computerSelection}`;
+  } else if (round === "computer") {
+    computerScore++;
+    OutputComputerScore.textContent = computerScore;
+    output.textContent = `Round goes to computer, ${computerSelection} beats ${playerSelection}`;
+  } else if (round === "draw") {
+    computerScore++;
+    OutputComputerScore.textContent = computerScore;
+    playerScore++;
+    OutputPlayScore.textContent = playerScore;
+    output.textContent = `Draw both player chose ${playerSelection} and computer chose ${computerSelection} `;
+  }
+
+  if (playerScore === 5) {
+    output.textContent = "You Win!!";
+    alert(`You Win!! ${playerScore} - ${computerScore}`);
+  } else if (computerScore === 5) {
+    output.textContent = "You Loose!!";
+    alert(`You Loose!! ${computerScore} - ${playerScore}`);
   }
 }
